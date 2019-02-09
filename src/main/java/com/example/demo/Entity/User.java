@@ -14,6 +14,8 @@ public class User {
 
     private String name;
 
+    private String email;
+
     private String surname;
 
     private int salary;
@@ -24,12 +26,13 @@ public class User {
 
     }
 
-    public User(String role, String name, String surname, int salary, int department_id) {
+    public User(String role, String name, String surname, int salary, int department_id, String email) {
         this.role = role;
         this.name = name;
         this.surname = surname;
         this.salary = salary;
         this.department_id = department_id;
+        this.email = email;
     }
 
     public Long getId() {
@@ -62,6 +65,14 @@ public class User {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Integer getSalary() {
