@@ -1,6 +1,7 @@
 package com.example.demo.Entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -8,9 +9,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //?
-    private Long id;
-
-    private String role;
+    private int id;
 
     private String name;
 
@@ -22,33 +21,35 @@ public class User {
 
     private int department_id;
 
+    private String password;
+
+/*
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "userroles", joinColumns = {
+            @JoinColumn(name = "user_id")}, inverseJoinColumns = {
+            @JoinColumn(name = "role_id")})
+    private List roles;
+    */
+
     public User(){
 
     }
 
-    public User(String role, String name, String surname, int salary, int department_id, String email) {
-        this.role = role;
+    public User(String name, String surname, int salary, int department_id, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.salary = salary;
         this.department_id = department_id;
         this.email = email;
+        this.password = password;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public String getName() {
@@ -89,5 +90,13 @@ public class User {
 
     public void setDepartment_id(Integer department_id) {
         this.department_id = department_id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
