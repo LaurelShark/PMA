@@ -9,12 +9,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
 
     @Autowired
     private CategoryServiceImpl categoryServiceImpl;
+
+    @GetMapping
+    public Iterable<Category> getAll(){
+        Iterable<Category> categories = null;
+        try {
+            categories = categoryServiceImpl.findAll();
+        }catch (Exception e){
+            System.err.println(e);
+        }
+        return categories;
+    }
 
     @GetMapping("/name={name}")
     public Category getCategoryByName(@PathVariable("name") String name){
