@@ -14,8 +14,9 @@ public class CategoryController {
 
     @Autowired
     private CategoryServiceImpl categoryServiceImpl;
-    
-    @GetMapping
+
+    @CrossOrigin
+    @RequestMapping
     public Iterable<Category> getAll(){
         Iterable<Category> categories = null;
         try {
