@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="users">
+  <el-table :data="providers">
     <el-table-column
       prop="id"
       label="Id"
@@ -9,20 +9,20 @@
       label="Name"
     />
     <el-table-column
-      prop="surname"
-      label="Surame"
+      prop="person_name"
+      label="Person name"
     />
     <el-table-column
-      prop="email"
-      label="email"
+      prop="phone"
+      label="Phone"
     />
     <el-table-column
-      prop="department_id"
-      label="Department id"
+      prop="address"
+      label="Address"
     />
     <el-table-column
-      prop="salary"
-      label="Salary"
+      prop="card_number"
+      label="Card number"
     />
   </el-table>
 </template>
@@ -32,17 +32,17 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   created() {
-    this.loadUsers()
+    this.loadProviders()
   },
   computed: {
-    ...mapState('Users', [
-      'users'
+    ...mapState('Providers', [
+      'providers'
     ])
   },
 
   methods: {
-    ...mapActions('Users', [
-      'loadUsers'
+    ...mapActions('Providers', [
+      'loadProviders'
     ]),
   }
 

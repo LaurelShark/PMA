@@ -12,13 +12,23 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
+  created() {
+    this.loadCategories()
+  },
   computed: {
     ...mapState('Categories', [
       'categories'
     ])
+  },
+
+  methods: {
+    ...mapActions('Categories', [
+      'loadCategories'
+    ]),
   }
+
 }
 </script>

@@ -26,10 +26,6 @@ import CatForm from './Form'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  created() {
-    this.loadCategories()
-  },
-
   components: {
     CatsList,
     CatForm

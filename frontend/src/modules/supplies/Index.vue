@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <el-col :span="20">
-      <receipt-list />
+      <supplies-list />
     </el-col>
     <el-col :span="4">
       <el-button
@@ -13,7 +13,7 @@
       </el-button>
     </el-col>
 
-    <receipt-form
+    <supplies-form
       ref="form"
     />
   </el-row>
@@ -21,13 +21,13 @@
 </template>
 
 <script>
-import ReceiptForm from './Form'
-import ReceiptList from './List'
+import SuppliesForm from './Form'
+import SuppliesList from './List'
 
 export default {
   components: {
-    ReceiptForm,
-    ReceiptList
+    SuppliesForm,
+    SuppliesList
   },
 
   methods: {

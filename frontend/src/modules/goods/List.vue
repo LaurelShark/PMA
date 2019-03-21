@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="tableData">
+  <el-table :data="goods">
     <el-table-column
       prop="id"
       label="Id"
@@ -28,22 +28,23 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
+  created() {
+    this.loadGoods()
+  },
   computed: {
-    tableData() {
-      return [
-        {
-          id: 1,
-          name: 'Hello World',
-          category_id: 2,
-          department_id: 34,
-          provider_id: 55,
-          amount: 44,
-          min_amount: 30,
-          price: 55
-        }
-      ]
-    }
+    ...mapState('Goods', [
+      'goods'
+    ])
+  },
+
+  methods: {
+    ...mapActions('Goods', [
+      'loadGoods'
+    ]),
   }
+
 }
 </script>
