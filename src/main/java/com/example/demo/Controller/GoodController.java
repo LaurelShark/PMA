@@ -58,19 +58,19 @@ public class GoodController {
         return ResponseEntity.ok().build();
     }
 
-    @CrossOrigin(origins = "*")
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteGood(@PathVariable Integer id){
-        HttpStatus httpStatus = null;
-        try {
-            goodRepository.deleteById(id);
-            httpStatus = HttpStatus.OK;
-        }catch (Exception e){
-            httpStatus = HttpStatus.BAD_REQUEST;
-            System.err.println(e);
-        }
-        return ResponseEntity.status(httpStatus).build();
-    }
+//    @CrossOrigin(origins = "*")
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity deleteGood(@PathVariable Integer id){
+//        HttpStatus httpStatus = null;
+//        try {
+//            goodRepository.deleteById(id);
+//            httpStatus = HttpStatus.OK;
+//        }catch (Exception e){
+//            httpStatus = HttpStatus.BAD_REQUEST;
+//            System.err.println(e);
+//        }
+//        return ResponseEntity.status(httpStatus).build();
+//    }
 
     private Good buildGood(GoodDto form){
         Good good = new Good();
