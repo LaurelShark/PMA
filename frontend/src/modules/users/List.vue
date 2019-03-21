@@ -17,7 +17,7 @@
       label="email"
     />
     <el-table-column
-      prop="department_id"
+      prop="departmentId"
       label="Department id"
     />
     <el-table-column
