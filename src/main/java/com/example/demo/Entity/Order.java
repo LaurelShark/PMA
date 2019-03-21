@@ -2,7 +2,9 @@ package com.example.demo.Entity;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.util.HashMap;
 
 @Entity
 @Table(name = "orders")
@@ -18,7 +20,10 @@ public class Order {
 
     private int totalSum;
 
-    private int user_id;
+    private int userId;
+
+    @NotNull()
+    private HashMap<Integer, Integer> products;
 
     public Order(){
 
@@ -56,11 +61,19 @@ public class Order {
         this.totalSum = totalSum;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public HashMap<Integer, Integer> getProducts() {
+        return products;
+    }
+
+    public void setProducts(HashMap<Integer, Integer> products) {
+        this.products = products;
     }
 }

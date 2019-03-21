@@ -13,11 +13,17 @@ public class Good {
 
     private String name;
 
-    private int category_id;
+    private int categoryId;
 
-    private int department_id;
+    private int departmentId;
 
-    private String unique_id;
+    private String uniqueId;
+
+    private int amount;
+
+    private int minAmount;
+
+    private double price;
 
     public Good(){
 
@@ -39,27 +45,51 @@ public class Good {
         this.name = name;
     }
 
-    public int getCategory_id() {
-        return category_id;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory_id(int category_id) {
-        this.category_id = category_id;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public int getDepartment_id() {
-        return department_id;
+    public int getDepartmentId() {
+        return departmentId;
     }
 
-    public void setDepartment_id(int department_id) {
-        this.department_id = department_id;
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
     }
 
-    public String getUnique_id() {
-        return unique_id;
+    public String getUniqueId() {
+        return uniqueId;
     }
 
-    public void setUnique_id(String unique_id) {
-        this.unique_id = unique_id;
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public int getMinAmount() {
+        return minAmount;
+    }
+
+    public void setMinAmount(int minAmount) {
+        this.minAmount = minAmount;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
