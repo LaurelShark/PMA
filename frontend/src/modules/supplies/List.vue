@@ -5,11 +5,11 @@
       label="Id"
     />
     <el-table-column
-      prop="provider_id"
+      prop="providerId"
       label="Provider id"
     />
     <el-table-column
-      prop="order_id"
+      prop="orderId"
       label="Order id"
     />
     <el-table-column
@@ -17,7 +17,7 @@
       label="Date"
     />
     <el-table-column
-      prop="total_sum"
+      prop="totalSum"
       label="Total sum"
     />
   </el-table>

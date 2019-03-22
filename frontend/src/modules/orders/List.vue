@@ -5,7 +5,7 @@
       label="Id"
     />
     <el-table-column
-      prop="user_id"
+      prop="userId"
       label="User id"
     />
     <el-table-column
@@ -17,7 +17,7 @@
       label="Date"
     />
     <el-table-column
-      prop="total_sum"
+      prop="totalSum"
       label="Total sum"
     />
   </el-table>

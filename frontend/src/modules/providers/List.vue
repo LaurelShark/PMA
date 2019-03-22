@@ -9,7 +9,7 @@
       label="Name"
     />
     <el-table-column
-      prop="person_name"
+      prop="personName"
       label="Person name"
     />
     <el-table-column
@@ -21,7 +21,7 @@
       label="Address"
     />
     <el-table-column
-      prop="card_number"
+      prop="cardNumber"
       label="Card number"
     />
   </el-table>

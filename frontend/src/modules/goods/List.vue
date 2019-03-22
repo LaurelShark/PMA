@@ -9,11 +9,11 @@
       label="Name"
     />
     <el-table-column
-      prop="category_id"
+      prop="categoryId"
       label="Category id"
     />
     <el-table-column
-      prop="department_id"
+      prop="departmentId"
       label="Department id"
     />
     <el-table-column
@@ -21,7 +21,7 @@
       label="Amount"
     />
     <el-table-column
-      prop="min_amount"
+      prop="minAmount"
       label="Min amount"
     />
   </el-table>
