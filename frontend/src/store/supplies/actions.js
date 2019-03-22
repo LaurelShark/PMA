@@ -5,7 +5,7 @@ export default {
   async loadSupplies({ commit }) {
     try {
       const resp = await axios.get(`${API}/supplies`)
-      commit('processSuplies', resp)
+      commit('processSupplies', resp.data)
     } catch(e) {
       console.log('SUPLIES ERROR', e)
     }
