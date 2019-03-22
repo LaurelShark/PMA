@@ -33,7 +33,7 @@ public class OrderController {
 
     @CrossOrigin(origins = "*")
     @GetMapping
-    public Iterable<Order> getOrder() {
+    public Iterable<Order> findAll() {
         Iterable<Order> orders = null;
         try{
             orders = orderService.findAll();

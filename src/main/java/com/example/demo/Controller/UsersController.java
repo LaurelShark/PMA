@@ -19,7 +19,8 @@ public class UsersController {
     @Autowired
     private UserServiceImpl userServiceImpl;
 
-    @GetMapping("/all")
+    @CrossOrigin(origins = "*")
+    @GetMapping()
     public List<User> getAllUsers(){
         List<User> users = null;
         try{
