@@ -6,6 +6,7 @@ import com.example.demo.Entity.Order;
 import com.example.demo.Entity.OrderGood;
 import com.example.demo.Repository.OrderGoodRepository;
 import com.example.demo.Repository.OrderRepository;
+import com.example.demo.Service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,21 @@ public class OrderController {
 
     @Autowired
     private OrderGoodRepository orderGoodRepository;
+
+    @Autowired
+    private OrderServiceImpl orderService;
+
+    @CrossOrigin(origins = "*")
+    @GetMapping
+    public Iterable<Order> getOrder() {
+        Iterable<Order> orders = null;
+        try{
+            orders = orderService.findAll();
+        }catch (Exception e){
+            System.err.println(e);
+        }
+        return orders;
+    }
 
     @CrossOrigin(origins = "*")
     @PostMapping

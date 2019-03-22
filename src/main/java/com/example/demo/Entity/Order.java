@@ -22,8 +22,7 @@ public class Order {
 
     private int userId;
 
-    @NotNull()
-    private HashMap<Integer, Integer> products;
+
 
     public Order(){
 
@@ -69,11 +68,4 @@ public class Order {
         this.userId = userId;
     }
 
-    public HashMap<Integer, Integer> getProducts() {
-        return products;
-    }
-
-    public void setProducts(HashMap<Integer, Integer> products) {
-        this.products = products;
-    }
 }

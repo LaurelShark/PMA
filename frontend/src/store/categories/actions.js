@@ -5,7 +5,7 @@ export default {
   async loadCategories({ commit }) {
     try {
       const resp = await axios.get(`${API}/categories`)
-      commit('processCategories', resp)
+      commit('processCategories', resp.data)
     } catch(e) {
       console.log('CATEGORIES ERROR', e)
     }
