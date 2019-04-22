@@ -3,9 +3,9 @@ package com.example.demo.Controller;
 
 import com.example.demo.Dto.OrderDto;
 import com.example.demo.Entity.Order;
-import com.example.demo.Entity.OrderGood;
-import com.example.demo.Repository.OrderGoodRepository;
-import com.example.demo.Repository.OrderRepository;
+import com.example.demo.Entity.OrderLine;
+import com.example.demo.Exception.NoSuchEntityException;
+import com.example.demo.Service.impl.OrderLineServiceImpl;
 import com.example.demo.Service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,23 +13,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
 
     @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private OrderGoodRepository orderGoodRepository;
-
-    @Autowired
     private OrderServiceImpl orderService;
+
+    @Autowired
+    private OrderLineServiceImpl orderLineService;
 
     @CrossOrigin(origins = "*")
     @GetMapping
@@ -43,56 +37,41 @@ public class OrderController {
         return orders;
     }
 
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/{id}")
+    public Order getOrderById(@Valid @PathVariable Integer id){
+        Order order = null;
+        try{
+            order = orderService.findOrderById(id);
+        } catch (NoSuchEntityException e) {
+            e.printStackTrace();
+        }
+        return order;
+    }
+
+
     @CrossOrigin(origins = "*")
     @PostMapping
-    public ResponseEntity<Order> createOrder(@Valid @RequestBody OrderDto form) throws Exception{
-        HttpStatus httpStatus = null;
-        int orderId;
-        Order tmpOrder;
+    public ResponseEntity<Order> createOrder(@Valid @RequestBody OrderDto orderDto) throws Exception{
+        HttpStatus httpStatus;
         try{
-            Order order = buildOrder(form);
-            tmpOrder = orderRepository.save(order);
-            orderId = tmpOrder.getId();
-            List<OrderGood> orderGoods = buildGoodList(form, orderId);
-            if (orderGoods.isEmpty()){
-                orderRepository.delete(order);
-                System.out.println("order deleted");
+            Order order = orderService.buildOrder(orderDto);
+            orderService.save(order);
+            List<OrderLine> orderLines = orderService.buildGoods(orderDto, order.getId());
+            if (orderLines.isEmpty()){
+                orderService.removeOrder(order);
             }
-            for (OrderGood orderGood : orderGoods){
-                orderGoodRepository.save(orderGood);
+            order.setTotalSum(orderService.getTotalSumOfOrder(orderLines));
+            for (OrderLine orderLine : orderLines){
+                orderLineService.save(orderLine);
             }
             httpStatus = HttpStatus.OK;
         } catch (Exception e){
-            System.err.println(e);
             httpStatus = HttpStatus.BAD_REQUEST;
+            e.printStackTrace();
         }
         return new ResponseEntity<>(httpStatus);
     }
-
-
-    private List<OrderGood> buildGoodList(OrderDto form, Integer id){
-        List<OrderGood> orderGoods = new ArrayList<>();
-        for (Map.Entry<Integer, Integer> entry : form.getProducts().entrySet()){
-            OrderGood orderGood = new OrderGood();
-            orderGood.setAmount(entry.getValue());
-            orderGood.setPrice(form.getPrice());
-            orderGood.setGoodId(entry.getKey());
-            orderGood.setOrderId(id);
-            orderGood.setProviderId(form.getProviderId());
-            orderGoods.add(orderGood);
-        }
-        return orderGoods;
-    }
-
-    // COUNT TOTAL PRICE, now is a stub
-
-    private Order buildOrder(OrderDto form){
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        Order order = new Order();
-        order.setStatus("NOT CONFIRMED");
-        order.setDate(timestamp);
-        order.setTotalSum(100);
-        order.setUserId(form.getUserId());
-        return order;
-    }
+    
 }

@@ -43,12 +43,14 @@ public class ReceiptController {
     public ResponseEntity<Receipt> createReceipt(@Valid @RequestBody ReceiptDto receiptDto){
         HttpStatus httpStatus;
         try {
+
+            // TODO checking if amount of product is available
+            // TODO minus products from database
+
             Receipt receipt = receiptService.buildReceipt(receiptDto);
             receiptService.save(receipt);
             Integer buildingReceiptId = receipt.getId();
-            System.out.println(receipt);
             List<ReceiptLine> receiptLines = receiptService.buildGoods(receiptDto, buildingReceiptId);
-            System.out.println(receiptLines);
             if (receiptLines.isEmpty()){
                 // Memory not cleaned from empty list
                 receiptService.removeReceipt(receipt);

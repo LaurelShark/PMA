@@ -18,11 +18,9 @@ public class Order {
 
     private Timestamp date;
 
-    private int totalSum;
+    private Double totalSum;
 
     private int userId;
-
-
 
     public Order(){
 
@@ -52,11 +50,11 @@ public class Order {
         this.date = date;
     }
 
-    public int getTotalSum() {
+    public Double getTotalSum() {
         return totalSum;
     }
 
-    public void setTotalSum(int totalSum) {
+    public void setTotalSum(Double totalSum) {
         this.totalSum = totalSum;
     }
 
@@ -68,4 +66,14 @@ public class Order {
         this.userId = userId;
     }
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", status='" + status + '\'' +
+                ", date=" + date +
+                ", totalSum=" + totalSum +
+                ", userId=" + userId +
+                '}';
+    }
 }

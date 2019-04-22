@@ -6,10 +6,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashMap;
 
 @Entity
 @Table(name = "orderlines")
-public class OrderGood {
+public class OrderLine {
 
 
     @Id
@@ -22,7 +23,7 @@ public class OrderGood {
 
     @NotNull()
     @Range(min=1,message = "Enter correct price")
-    private int price;
+    private Double price;
 
     @NotNull()
     @Range(min=1,message = "Enter correct orderId")
@@ -34,7 +35,7 @@ public class OrderGood {
 
     private int providerId;
 
-    public OrderGood(){
+    public OrderLine(){
 
     }
 
@@ -54,11 +55,11 @@ public class OrderGood {
         this.amount = amount;
     }
 
-    public int getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -88,7 +89,7 @@ public class OrderGood {
 
     @Override
     public String toString() {
-        return "OrderGood{" +
+        return "OrderLine{" +
                 "id=" + id +
                 ", amount=" + amount +
                 ", price=" + price +
