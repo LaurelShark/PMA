@@ -1,6 +1,7 @@
 package com.example.demo.Repository;
 
 import com.example.demo.Entity.Good;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RepositoryRestResource
-public interface GoodRepository extends CrudRepository<Good, Integer> {
+public interface GoodRepository extends JpaRepository<Good, Integer> {
 
     List<Good> findAll();
 

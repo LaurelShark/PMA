@@ -19,6 +19,33 @@
 -- Table structure for table `categories`
 --
 
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  `surname` varchar(30) NOT NULL,
+  `salary` int(11) NOT NULL,
+  `department_id` int(11) NOT NULL,
+  `email` varchar(80) NOT NULL,
+  `password` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `department_id` (`department_id`),
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (2,'lol','lol',100,1,'lol@gmail.com','lol'),(3,'kek','kek',1000,1,'kek@gmail.com','kek'),(4,'John','Smith',1500,1,'',''),(8,'Jomn','Smittth',1500000,2,'ya@kl.qwer','123'),(9,'Jomn','Smittth',1500000,2,'ya2@kl.qwer','123'),(10,'Jomn','Smittth',1500000,2,'ya123@kl.qwer','123');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
 DROP TABLE IF EXISTS `categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
@@ -35,7 +62,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'grocery'),(2,'sedan'),(3,'SUV'),(4,'Jomn'),(5,'smartphones'),(6,'earphones'),(7,'cases'),(8,'power-banks'),(9,'categoria');
+INSERT INTO categories VALUES (1,'grocery'),(2,'sedan'),(3,'SUV'),(4,'Jomn'),(5,'smartphones'),(6,'earphones'),(7,'cases'),(8,'power-banks'),(9,'categoria');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,19 +149,6 @@ CREATE TABLE `orderlines` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `orderlines`
---
-
-LOCK TABLES `orderlines` WRITE;
-/*!40000 ALTER TABLE `orderlines` DISABLE KEYS */;
-INSERT INTO `orderlines` VALUES (4,20,48000,1,1,2),(5,6,35000,2,2,1),(6,63,679,2,6,2);
-/*!40000 ALTER TABLE `orderlines` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `orders`
---
 
 DROP TABLE IF EXISTS `orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -151,19 +165,6 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `orders`
---
-
-LOCK TABLES `orders` WRITE;
-/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,'done','2019-02-21',960000,2),(2,'done','2019-02-27',252777,2);
-/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `providers`
---
 
 DROP TABLE IF EXISTS `providers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -189,6 +190,63 @@ LOCK TABLES `providers` WRITE;
 INSERT INTO `providers` VALUES (1,'Providers Group','Galyna Vasylkivska','0445673812','Baseina str, 9A, off.3','4876234509189754',NULL),(2,'Providers and Co.','Hlib Kovaliov','0447200918','Vokzalna str., 14, off.1','4782193082761090',NULL),(3,'Providers Group','Galyna Vasylkivska','0445673812','Baseina str, 9A, off.3','4876234509189754',NULL),(4,'Providers and Co.','Hlib Kovaliov','0447200918','Vokzalna str., 14, off.1','4782193082761090',NULL);
 /*!40000 ALTER TABLE `providers` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+--
+-- Dumping data for table `orders`
+--
+
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES (1,'done','2019-02-21',960000,2),(2,'done','2019-02-27',252777,2);
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `orderlines`
+--
+
+LOCK TABLES `orderlines` WRITE;
+/*!40000 ALTER TABLE `orderlines` DISABLE KEYS */;
+INSERT INTO `orderlines` VALUES (4,20,48000,1,1,2),(5,6,35000,2,2,1),(6,63,679,2,6,2);
+/*!40000 ALTER TABLE `orderlines` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders`
+--
+
+
+
+--
+-- Table structure for table `providers`
+--
+
+DROP TABLE IF EXISTS `receipts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `receipts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `total_sum` float NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `datetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `receipts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `receipts`
+--
+
+LOCK TABLES `receipts` WRITE;
+/*!40000 ALTER TABLE `receipts` DISABLE KEYS */;
+INSERT INTO `receipts` VALUES (1,'2019-03-01',48000,3,NULL),(2,'2019-03-01',1877,3,NULL),(3,'2019-03-01',48000,3,NULL),(4,'2019-03-01',1877,3,NULL),(5,'2019-03-01',48000,9,NULL),(6,'2019-03-01',1877,10,NULL);
+/*!40000 ALTER TABLE `receipts` ENABLE KEYS */;
+UNLOCK TABLES;
+
 
 --
 -- Table structure for table `receiptlines`
@@ -226,31 +284,6 @@ UNLOCK TABLES;
 --
 -- Table structure for table `receipts`
 --
-
-DROP TABLE IF EXISTS `receipts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `receipts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date` date NOT NULL,
-  `total_sum` float NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `datetime` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `receipts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `receipts`
---
-
-LOCK TABLES `receipts` WRITE;
-/*!40000 ALTER TABLE `receipts` DISABLE KEYS */;
-INSERT INTO `receipts` VALUES (1,'2019-03-01',48000,3,NULL),(2,'2019-03-01',1877,3,NULL),(3,'2019-03-01',48000,3,NULL),(4,'2019-03-01',1877,3,NULL),(5,'2019-03-01',48000,9,NULL),(6,'2019-03-01',1877,10,NULL);
-/*!40000 ALTER TABLE `receipts` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `roles`
@@ -371,32 +404,7 @@ UNLOCK TABLES;
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) NOT NULL,
-  `surname` varchar(30) NOT NULL,
-  `salary` int(11) NOT NULL,
-  `department_id` int(11) NOT NULL,
-  `email` varchar(80) NOT NULL,
-  `password` varchar(150) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `department_id` (`department_id`),
-  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (2,'lol','lol',100,1,'lol@gmail.com','lol'),(3,'kek','kek',1000,1,'kek@gmail.com','kek'),(4,'John','Smith',1500,1,'',''),(8,'Jomn','Smittth',1500000,2,'ya@kl.qwer','123'),(9,'Jomn','Smittth',1500000,2,'ya2@kl.qwer','123'),(10,'Jomn','Smittth',1500000,2,'ya123@kl.qwer','123');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

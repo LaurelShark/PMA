@@ -30,7 +30,7 @@ public class GoodDto {
 
     @NotNull()
     @Range(min=1,message = "Product should have price")
-    private double price;
+        private double price;
 
     private String uniqueId;
 

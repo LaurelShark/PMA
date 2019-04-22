@@ -92,4 +92,18 @@ public class Good {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "Good{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", categoryId=" + categoryId +
+                ", departmentId=" + departmentId +
+                ", uniqueId='" + uniqueId + '\'' +
+                ", amount=" + amount +
+                ", minAmount=" + minAmount +
+                ", price=" + price +
+                '}';
+    }
 }

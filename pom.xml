@@ -70,10 +70,4 @@
 		</plugins>
 	</build>
 
-	<mvc:cors>
-		<mvc:mapping path="/**" 
-			allowed-methods="*"
-		/>
-	</mvc:cors>
-
 </project>

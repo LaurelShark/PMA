@@ -4,11 +4,10 @@ import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.HashMap;
 
-public class FuckinDto {
+public class ReceiptDto {
 
     private Timestamp date;
 
-    @NotNull
     private Integer totalSum;
 
     @NotNull
