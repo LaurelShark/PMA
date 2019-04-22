@@ -3,7 +3,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.Dto.GoodDto;
 import com.example.demo.Entity.Good;
-import com.example.demo.Repository.GoodRepository;
+import com.example.demo.Service.impl.GoodServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +17,14 @@ import java.util.Optional;
 public class GoodController {
 
     @Autowired
-    private GoodRepository goodRepository;
+    private GoodServiceImpl goodService;
 
     @CrossOrigin(origins = "*")
-    @RequestMapping
+    @GetMapping
     public Iterable<Good> getAll(){
         Iterable<Good> goods = null;
         try{
-            goods = goodRepository.findAll();
+            goods = goodService.findAll();
         } catch (Exception e){
             System.err.println(e);
         }
@@ -37,7 +37,7 @@ public class GoodController {
         HttpStatus httpStatus = null;
         try{
             Good good = buildGood(form);
-            goodRepository.save(good);
+            goodService.save(good);
             httpStatus = HttpStatus.OK;
         } catch (Exception e){
             httpStatus = HttpStatus.BAD_REQUEST;
@@ -49,12 +49,12 @@ public class GoodController {
     @CrossOrigin(origins = "*")
     @PutMapping("/{id}")
     public ResponseEntity<Good> updateGood(@RequestBody Good good, @PathVariable Integer id){
-        Optional<Good> goodOptional = goodRepository.findById(id);
+        Optional<Good> goodOptional = goodService.findById(id);
         if (!goodOptional.isPresent()){
             return ResponseEntity.notFound().build();
         }
         good.setId(id);
-        goodRepository.save(good);
+        goodService.save(good);
         return ResponseEntity.ok().build();
     }
 
@@ -63,7 +63,7 @@ public class GoodController {
     public ResponseEntity deleteGood(@PathVariable Integer id){
         HttpStatus httpStatus = null;
         try {
-            goodRepository.deleteById(id);
+        //    goodService.deleteById(id);
             httpStatus = HttpStatus.OK;
         }catch (Exception e){
             httpStatus = HttpStatus.BAD_REQUEST;

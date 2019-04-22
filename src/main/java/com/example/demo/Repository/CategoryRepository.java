@@ -9,4 +9,6 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
 
     Category getCategoryByName(String name);
 
+    Category save(Category category);
+
 }

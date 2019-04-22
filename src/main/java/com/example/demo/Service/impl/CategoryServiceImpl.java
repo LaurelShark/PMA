@@ -23,4 +23,9 @@ public class CategoryServiceImpl implements CategoryService {
     public Iterable<Category> findAll(){
         return categoryRepository.findAll();
     }
+
+    @Override
+    public Category save(Category category){
+        return categoryRepository.save(category);
+    }
 }

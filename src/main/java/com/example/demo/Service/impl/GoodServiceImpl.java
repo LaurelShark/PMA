@@ -10,10 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CategoryService implements GoodService {
+public class GoodServiceImpl implements GoodService {
 
     @Autowired
     private GoodRepository goodRepository;
+
 
     @Override
     public List<Good> findAll() {
@@ -21,17 +22,18 @@ public class CategoryService implements GoodService {
     }
 
     @Override
-    public void save(Good good) {
-        goodRepository.save(good);
+    public Good save(Good good) {
+        return goodRepository.save(good);
     }
 
     @Override
     public Optional<Good> findById(Integer id) {
-        return Optional.empty();
+        return goodRepository.findById(id);
     }
 
     @Override
-    public void deleteById(Integer id) {
-
+    public Good deleteById(Good good) {
+       // return goodRepository.delete(good);
+        return null;
     }
 }

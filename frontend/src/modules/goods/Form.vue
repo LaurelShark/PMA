@@ -35,6 +35,11 @@
           v-model="form.amount"
         />
       </el-form-item>
+	  <el-form-item label="Price">
+        <el-input
+          v-model="form.price"
+        />
+      </el-form-item>
 
       <el-form-item>
         <el-button

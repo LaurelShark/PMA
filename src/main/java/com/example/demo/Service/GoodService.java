@@ -10,9 +10,9 @@ public interface GoodService {
 
     List<Good> findAll();
 
-    void save(Good good);
+    Good save(Good good);
 
     Optional<Good> findById(Integer id);
 
-    void deleteById(Integer id);
+    Good deleteById(Good good);
 }

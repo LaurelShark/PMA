@@ -14,7 +14,7 @@ public interface GoodRepository extends CrudRepository<Good, Integer> {
 
     Good save(Good good);
 
-   // void delete(Integer id);
+    Good deleteById(Good good);
 
     Optional<Good> findById(Integer id);
 

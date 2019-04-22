@@ -24,6 +24,10 @@
       prop="minAmount"
       label="Min amount"
     />
+	<el-table-column
+      prop="price"
+      label="Price"
+    />
   </el-table>
 </template>
 

@@ -9,4 +9,6 @@ public interface CategoryService {
     Category getCategoryByName(String name);
 
     Iterable<Category> findAll();
+
+    Category save(Category category);
 }
