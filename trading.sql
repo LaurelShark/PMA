@@ -110,10 +110,10 @@ CREATE TABLE `orderlines` (
   `amount` int(11) NOT NULL,
   `good_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
+  `price` float DEFAULT NULL,
   `provider_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +122,7 @@ CREATE TABLE `orderlines` (
 
 LOCK TABLES `orderlines` WRITE;
 /*!40000 ALTER TABLE `orderlines` DISABLE KEYS */;
-INSERT INTO `orderlines` VALUES (1,12,5,7,30,2),(2,10,14,7,16,2);
+INSERT INTO `orderlines` VALUES (1,10,5,7,30,2),(2,12,14,7,16,2),(3,7,1,10,0,3),(4,3,15,10,15.5,3);
 /*!40000 ALTER TABLE `orderlines` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,13 +136,13 @@ DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `status` varchar(30) NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime DEFAULT NULL,
   `total_sum` float DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +151,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,'done','2019-02-21',960000,2),(2,'done','2019-02-27',252777,2),(3,'NOT CONFIRMED','2019-04-22',NULL,2),(4,'NOT CONFIRMED','2019-04-22',NULL,2),(5,'NOT CONFIRMED','2019-04-22',NULL,2),(6,'NOT CONFIRMED','2019-04-22',NULL,2),(7,'NOT CONFIRMED','2019-04-22',520,2);
+INSERT INTO `orders` VALUES (1,'done','2019-02-21 00:00:00',960000,2),(2,'done','2019-02-27 00:00:00',252777,2),(3,'NOT CONFIRMED','2019-04-22 00:00:00',NULL,2),(4,'NOT CONFIRMED','2019-04-22 00:00:00',NULL,2),(5,'NOT CONFIRMED','2019-04-22 00:00:00',NULL,2),(7,'APPROVED','2019-04-24 00:00:00',984,2),(8,'NOT CONFIRMED','2019-04-24 13:29:17',NULL,2),(9,'NOT CONFIRMED','2019-04-24 13:32:27',NULL,2),(10,'NOT CONFIRMED','2019-04-24 13:33:38',46.5,2);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -278,7 +278,6 @@ DROP TABLE IF EXISTS `supplies`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `supplies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date` date NOT NULL,
   `provider_id` int(11) NOT NULL,
   `total_sum` float DEFAULT NULL,
   `order_id` int(11) NOT NULL,
@@ -288,7 +287,7 @@ CREATE TABLE `supplies` (
   KEY `order_id` (`order_id`),
   CONSTRAINT `supplies_ibfk_1` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`),
   CONSTRAINT `supplies_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,7 +296,7 @@ CREATE TABLE `supplies` (
 
 LOCK TABLES `supplies` WRITE;
 /*!40000 ALTER TABLE `supplies` DISABLE KEYS */;
-INSERT INTO `supplies` VALUES (2,'2019-02-24',1,210000,2,NULL),(3,'2019-02-24',2,960000,1,NULL),(4,'2019-02-25',2,294777,2,NULL);
+INSERT INTO `supplies` VALUES (2,1,210000,2,NULL),(3,2,960000,1,NULL),(4,2,294777,2,NULL),(5,2,0,3,'2019-04-24 14:53:13'),(6,2,0,3,'2019-04-24 14:53:48'),(7,2,0,3,'2019-04-24 14:55:09'),(8,2,0,3,'2019-04-24 14:57:44'),(9,2,108395,3,'2019-04-24 15:02:10');
 /*!40000 ALTER TABLE `supplies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -319,7 +318,7 @@ CREATE TABLE `supplylines` (
   KEY `supply_id` (`supply_id`),
   CONSTRAINT `supplylines_ibfk_1` FOREIGN KEY (`good_id`) REFERENCES `goods` (`id`),
   CONSTRAINT `supplylines_ibfk_2` FOREIGN KEY (`supply_id`) REFERENCES `supplies` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -328,7 +327,7 @@ CREATE TABLE `supplylines` (
 
 LOCK TABLES `supplylines` WRITE;
 /*!40000 ALTER TABLE `supplylines` DISABLE KEYS */;
-INSERT INTO `supplylines` VALUES (2,20,48000,1,2),(3,6,35000,2,4),(4,63,679,3,3);
+INSERT INTO `supplylines` VALUES (2,20,48000,1,2),(3,6,35000,2,4),(4,63,679,3,3),(5,3,35000,7,9),(6,5,679,11,9);
 /*!40000 ALTER TABLE `supplylines` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -400,4 +399,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-24 11:49:31
+-- Dump completed on 2019-04-24 18:04:39
