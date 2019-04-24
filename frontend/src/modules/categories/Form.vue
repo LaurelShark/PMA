@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   data() {
     return {
@@ -32,7 +34,15 @@ export default {
     }
   },
 
+  computed: {
+
+  },
+
   methods: {
+     ...mapActions('Categories', [
+      'createCategory'
+    ]),
+
     openDialog() {
       this.dialogVisible = true
     },
@@ -41,8 +51,16 @@ export default {
       this.dialogVisible = false
     },
 
-    onSubmit() {
-      //
+    async onSubmit() {
+      try {
+        await this.createCategory({
+          name: this.form.name
+        })
+      } catch (e) {
+        console.log(e, 'error')
+      }
+     
+
       this.closeDialog()
     }
   }

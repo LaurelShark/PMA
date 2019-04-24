@@ -15,6 +15,7 @@
 
     <cat-form
       ref="form"
+      @update="loadCategories"
     />
   </el-row>
   
@@ -26,11 +27,14 @@ import CatForm from './Form'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  created() {
+    this.loadCategories()
+  },
   components: {
     CatsList,
     CatForm
   },
-
+  
   methods: {
     ...mapActions('Categories', [
       'loadCategories'

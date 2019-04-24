@@ -10,5 +10,14 @@ export default {
       console.log('CATEGORIES ERROR', e)
     }
    
-  }
+  },
+
+  async createCategory({ commit }, payload) {
+    try {
+      const resp = await axios.post(`${API}/categories`, payload)
+    } catch(e) {
+      throw new Error('categories error')
+    }
+   
+  },
 }
