@@ -4,7 +4,6 @@ import com.example.demo.Dto.OrderDto;
 import com.example.demo.Entity.Good;
 import com.example.demo.Entity.Order;
 import com.example.demo.Entity.OrderLine;
-import com.example.demo.Entity.ReceiptLine;
 import com.example.demo.Exception.NoSuchEntityException;
 import com.example.demo.Repository.GoodRepository;
 import com.example.demo.Repository.OrderRepository;
@@ -43,6 +42,20 @@ public class OrderServiceImpl implements OrderService {
         Optional<Order> foundOrder = orderRepository.findById(id);
         return foundOrder.orElseThrow(()-> new NoSuchEntityException(String
                 .format("The order with such id:%s doesn't exist!", id)));
+    }
+
+    @Override
+    public Iterable<Order> getApprovedOrders(String status) {
+        return orderRepository.getByStatusEquals(status);
+    }
+
+    @Override
+    public void approveOrder(Integer id) throws NoSuchEntityException {
+        Order foundOrder = orderRepository.findById(id).orElseThrow(
+                () -> new NoSuchEntityException(String
+                        .format("The order with such id:%s doesn't exist!", id)));
+        foundOrder.setStatus("APPROVED");
+        orderRepository.save(foundOrder);
     }
 
     @Override

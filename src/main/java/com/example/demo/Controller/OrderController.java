@@ -69,6 +69,20 @@ public class OrderController {
     }
 
 
+    // TODO test this method
+    @CrossOrigin(origins = "*")
+    @GetMapping("/status={status}")
+    public Iterable<Order> getApprovedOrders(@Valid @PathVariable String status){
+        Iterable<Order> approvedOrders = null;
+        try{
+            approvedOrders = orderService.getApprovedOrders(status);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return approvedOrders;
+    }
+
+
     @CrossOrigin(origins = "*")
     @PostMapping
     public ResponseEntity<Order> createOrder(@Valid @RequestBody OrderDto orderDto) throws Exception{
@@ -100,6 +114,20 @@ public class OrderController {
             orderService.updateOrder(orderDto, id);
             httpStatus = HttpStatus.OK;
         } catch (Exception e) {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(httpStatus);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping("/approve/{id}")
+    public ResponseEntity<Order> approveOrder(@Valid @PathVariable Integer id){
+        HttpStatus httpStatus;
+        try{
+            orderService.approveOrder(id);
+            httpStatus = HttpStatus.OK;
+        } catch (NoSuchEntityException e) {
             httpStatus = HttpStatus.BAD_REQUEST;
             e.printStackTrace();
         }

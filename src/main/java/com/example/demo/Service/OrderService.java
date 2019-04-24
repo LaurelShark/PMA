@@ -2,10 +2,7 @@ package com.example.demo.Service;
 
 import com.example.demo.Dto.OrderDto;
 import com.example.demo.Entity.Order;
-import com.example.demo.Entity.OrderLine;
 import com.example.demo.Exception.NoSuchEntityException;
-
-import java.util.List;
 
 
 public interface OrderService {
@@ -17,6 +14,10 @@ public interface OrderService {
     Order findOrderById(Integer id) throws NoSuchEntityException;
 
     Order updateOrder(OrderDto orderDto, Integer id) throws Exception;
+
+    Iterable<Order> getApprovedOrders(String status);
+
+    void approveOrder(Integer id) throws NoSuchEntityException;
 
     void removeOrder(Integer id);
 }
