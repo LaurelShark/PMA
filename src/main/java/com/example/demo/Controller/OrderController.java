@@ -5,6 +5,7 @@ import com.example.demo.Dto.OrderDto;
 import com.example.demo.Entity.Order;
 import com.example.demo.Entity.OrderLine;
 import com.example.demo.Exception.NoSuchEntityException;
+import com.example.demo.Repository.OrderLineRepository;
 import com.example.demo.Service.impl.OrderLineServiceImpl;
 import com.example.demo.Service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,23 @@ public class OrderController {
 
     @Autowired
     private OrderLineServiceImpl orderLineService;
+
+
+    // TEST
+    @Autowired
+    private OrderLineRepository orderLineRepository;
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/order/{id}")
+    public Iterable<OrderLine> findOrderLinesByOrderId(@Valid @PathVariable Integer id){
+        Iterable<OrderLine> orderLines = null;
+        try{
+            orderLines = orderLineRepository.foundOrderLinesByOrderId(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return orderLines;
+    }
 
     @CrossOrigin(origins = "*")
     @GetMapping
@@ -60,7 +78,7 @@ public class OrderController {
             orderService.save(order);
             List<OrderLine> orderLines = orderService.buildGoods(orderDto, order.getId());
             if (orderLines.isEmpty()){
-                orderService.removeOrder(order);
+                orderService.removeOrder(order.getId());
             }
             order.setTotalSum(orderService.getTotalSumOfOrder(orderLines));
             for (OrderLine orderLine : orderLines){
@@ -73,5 +91,34 @@ public class OrderController {
         }
         return new ResponseEntity<>(httpStatus);
     }
-    
+
+    @CrossOrigin(origins = "*")
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Order> updateOrder(@Valid @RequestBody OrderDto orderDto, @PathVariable Integer id) {
+        HttpStatus httpStatus;
+        try {
+            orderService.updateOrder(orderDto, id);
+            httpStatus = HttpStatus.OK;
+        } catch (Exception e) {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(httpStatus);
+    }
+
+
+    @CrossOrigin(origins = "*")
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Order> deleteOrder(@Valid @PathVariable Integer id){
+        HttpStatus httpStatus;
+        try{
+            orderService.removeOrder(id);
+            httpStatus = HttpStatus.OK;
+        }catch (Exception e){
+            httpStatus = HttpStatus.BAD_REQUEST;
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(httpStatus);
+    }
+
 }
