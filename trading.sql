@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.14, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
 -- Host: localhost    Database: trading
 -- ------------------------------------------------------
--- Server version	8.0.14
+-- Server version	8.0.15
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,33 +18,6 @@
 --
 -- Table structure for table `categories`
 --
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) NOT NULL,
-  `surname` varchar(30) NOT NULL,
-  `salary` int(11) NOT NULL,
-  `department_id` int(11) NOT NULL,
-  `email` varchar(80) NOT NULL,
-  `password` varchar(150) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `department_id` (`department_id`),
-  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (2,'lol','lol',100,1,'lol@gmail.com','lol'),(3,'kek','kek',1000,1,'kek@gmail.com','kek'),(4,'John','Smith',1500,1,'',''),(8,'Jomn','Smittth',1500000,2,'ya@kl.qwer','123'),(9,'Jomn','Smittth',1500000,2,'ya2@kl.qwer','123'),(10,'Jomn','Smittth',1500000,2,'ya123@kl.qwer','123');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -62,7 +35,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO categories VALUES (1,'grocery'),(2,'sedan'),(3,'SUV'),(4,'Jomn'),(5,'smartphones'),(6,'earphones'),(7,'cases'),(8,'power-banks'),(9,'categoria');
+INSERT INTO `categories` VALUES (1,'grocery'),(2,'sedan'),(3,'SUV'),(4,'Jomn'),(5,'smartphones'),(6,'earphones'),(7,'cases'),(8,'power-banks'),(9,'categoria');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,14 +78,14 @@ CREATE TABLE `goods` (
   `department_id` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
   `min_amount` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
   `unique_id` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   KEY `department_id` (`department_id`),
   CONSTRAINT `goods_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
   CONSTRAINT `goods_ibfk_2` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +94,7 @@ CREATE TABLE `goods` (
 
 LOCK TABLES `goods` WRITE;
 /*!40000 ALTER TABLE `goods` DISABLE KEYS */;
-INSERT INTO `goods` VALUES (1,'stew',1,1,0,0,0,NULL),(2,'Mercedes Benz',2,2,0,0,0,NULL),(3,'Mercedes Gelandewagen',3,2,0,0,0,NULL),(5,'Good1',1,1,2,1,30,'SSL-12LTS-95-HS-112'),(6,'Phone Samsung Galaxy S10 Black',1,1,19,4,48000,'35-4190'),(7,'iPhone S8 Rose Gold',1,1,6,4,35000,'11-419002-389644-6'),(8,'Sony Noise Cancelin Headphones',2,2,28,5,500,NULL),(9,'Sony Stereo Wired Earbuds',2,2,30,5,299,NULL),(10,'XIAOMI Mi Power Bank',4,2,13,7,899,NULL),(11,'Silicon Case for iPhone S5',3,2,63,10,679,NULL),(12,'knut',1,1,100,5,90,NULL),(13,'knut32',1,1,100,5,90,NULL);
+INSERT INTO `goods` VALUES (1,'stew',1,1,0,0,0.00,NULL),(2,'Mercedes Benz',2,2,0,0,0.00,NULL),(3,'Mercedes Gelandewagen',3,2,0,0,0.00,NULL),(5,'Good1',1,1,2,1,30.00,'SSL-12LTS-95-HS-112'),(6,'Phone Samsung Galaxy S10 Black',1,1,19,4,48000.00,'35-4190'),(7,'iPhone S8 Rose Gold',1,1,6,4,35000.00,'11-419002-389644-6'),(8,'Sony Noise Cancelin Headphones',2,2,28,5,500.00,NULL),(9,'Sony Stereo Wired Earbuds',2,2,30,5,299.00,NULL),(10,'XIAOMI Mi Power Bank',4,2,13,7,899.00,NULL),(11,'Silicon Case for iPhone S5',3,2,63,10,679.00,NULL),(12,'knut',1,1,100,5,90.00,NULL),(13,'knut32',1,1,100,5,90.00,NULL),(14,'coca-cola',3,1,1500,20,16.00,NULL),(15,'coca-colaUPD',3,1,1500,20,15.50,NULL);
 /*!40000 ALTER TABLE `goods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,21 +107,28 @@ DROP TABLE IF EXISTS `orderlines`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `orderlines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `amount` float NOT NULL,
-  `price` float NOT NULL,
-  `order_id` int(11) NOT NULL,
+  `amount` int(11) NOT NULL,
   `good_id` int(11) NOT NULL,
-  `provider_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `order_id` (`order_id`),
-  KEY `good_id` (`good_id`),
-  KEY `provider_id` (`provider_id`),
-  CONSTRAINT `orderlines_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
-  CONSTRAINT `orderlines_ibfk_2` FOREIGN KEY (`good_id`) REFERENCES `goods` (`id`),
-  CONSTRAINT `orderlines_ibfk_3` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `order_id` int(11) NOT NULL,
+  `price` float DEFAULT NULL,
+  `provider_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `orderlines`
+--
+
+LOCK TABLES `orderlines` WRITE;
+/*!40000 ALTER TABLE `orderlines` DISABLE KEYS */;
+INSERT INTO `orderlines` VALUES (1,10,5,7,30,2),(2,12,14,7,16,2),(3,7,1,10,0,3),(4,3,15,10,15.5,3);
+/*!40000 ALTER TABLE `orderlines` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders`
+--
 
 DROP TABLE IF EXISTS `orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -156,15 +136,28 @@ DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `status` varchar(30) NOT NULL,
-  `date` date NOT NULL,
-  `total_sum` float NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `total_sum` float DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `orders`
+--
+
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES (1,'done','2019-02-21 00:00:00',960000,2),(2,'done','2019-02-27 00:00:00',252777,2),(3,'NOT CONFIRMED','2019-04-22 00:00:00',NULL,2),(4,'NOT CONFIRMED','2019-04-22 00:00:00',NULL,2),(5,'NOT CONFIRMED','2019-04-22 00:00:00',NULL,2),(7,'APPROVED','2019-04-24 00:00:00',984,2),(8,'NOT CONFIRMED','2019-04-24 13:29:17',NULL,2),(9,'NOT CONFIRMED','2019-04-24 13:32:27',NULL,2),(10,'NOT CONFIRMED','2019-04-24 13:33:38',46.5,2);
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `providers`
+--
 
 DROP TABLE IF EXISTS `providers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -191,63 +184,6 @@ INSERT INTO `providers` VALUES (1,'Providers Group','Galyna Vasylkivska','044567
 /*!40000 ALTER TABLE `providers` ENABLE KEYS */;
 UNLOCK TABLES;
 
-
---
--- Dumping data for table `orders`
---
-
-LOCK TABLES `orders` WRITE;
-/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,'done','2019-02-21',960000,2),(2,'done','2019-02-27',252777,2);
-/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping data for table `orderlines`
---
-
-LOCK TABLES `orderlines` WRITE;
-/*!40000 ALTER TABLE `orderlines` DISABLE KEYS */;
-INSERT INTO `orderlines` VALUES (4,20,48000,1,1,2),(5,6,35000,2,2,1),(6,63,679,2,6,2);
-/*!40000 ALTER TABLE `orderlines` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `orders`
---
-
-
-
---
--- Table structure for table `providers`
---
-
-DROP TABLE IF EXISTS `receipts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `receipts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date` date NOT NULL,
-  `total_sum` float NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `datetime` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `receipts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `receipts`
---
-
-LOCK TABLES `receipts` WRITE;
-/*!40000 ALTER TABLE `receipts` DISABLE KEYS */;
-INSERT INTO `receipts` VALUES (1,'2019-03-01',48000,3,NULL),(2,'2019-03-01',1877,3,NULL),(3,'2019-03-01',48000,3,NULL),(4,'2019-03-01',1877,3,NULL),(5,'2019-03-01',48000,9,NULL),(6,'2019-03-01',1877,10,NULL);
-/*!40000 ALTER TABLE `receipts` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
 --
 -- Table structure for table `receiptlines`
 --
@@ -268,7 +204,7 @@ CREATE TABLE `receiptlines` (
   KEY `receipt_id` (`receipt_id`),
   CONSTRAINT `receiptlines_ibfk_1` FOREIGN KEY (`good_id`) REFERENCES `goods` (`id`),
   CONSTRAINT `receiptlines_ibfk_2` FOREIGN KEY (`receipt_id`) REFERENCES `receipts` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -277,13 +213,37 @@ CREATE TABLE `receiptlines` (
 
 LOCK TABLES `receiptlines` WRITE;
 /*!40000 ALTER TABLE `receiptlines` DISABLE KEYS */;
-INSERT INTO `receiptlines` VALUES (13,'Phone Samsung Galaxy S10 Black',1,48000,'34-419002-389644-3',1,1),(14,'Sony Stereo Wired Earbuds',1,299,NULL,2,2),(15,'XIAOMI Mi Power Bank',1,899,NULL,3,2),(16,'Silicon Case for iPhone S5',1,679,NULL,2,2);
+INSERT INTO `receiptlines` VALUES (13,'Phone Samsung Galaxy S10 Black',1,48000,'34-419002-389644-3',1,1),(14,'Sony Stereo Wired Earbuds',1,299,NULL,2,2),(15,'XIAOMI Mi Power Bank',1,899,NULL,3,2),(16,'Silicon Case for iPhone S5',1,679,NULL,2,2),(19,'knut',5,90,NULL,12,13),(20,'coca-cola',20,16,NULL,14,14),(21,'coca-cola',10,16,NULL,14,15),(22,'Good1',12,30,'SSL-12LTS-95-HS-112',5,16),(23,'coca-cola',10,16,NULL,14,16);
 /*!40000 ALTER TABLE `receiptlines` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
 -- Table structure for table `receipts`
 --
+
+DROP TABLE IF EXISTS `receipts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `receipts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `total_sum` float DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `datetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `receipts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `receipts`
+--
+
+LOCK TABLES `receipts` WRITE;
+/*!40000 ALTER TABLE `receipts` DISABLE KEYS */;
+INSERT INTO `receipts` VALUES (1,48000,3,NULL),(2,1877,3,NULL),(3,48000,3,NULL),(4,1877,3,NULL),(5,48000,9,NULL),(6,1877,10,NULL),(13,90,2,'2019-04-22 13:28:26'),(14,16,2,'2019-04-22 14:48:21'),(15,160,2,'2019-04-22 14:51:27'),(16,520,2,'2019-04-22 14:58:54');
+/*!40000 ALTER TABLE `receipts` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `roles`
@@ -318,7 +278,6 @@ DROP TABLE IF EXISTS `supplies`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `supplies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date` date NOT NULL,
   `provider_id` int(11) NOT NULL,
   `total_sum` float DEFAULT NULL,
   `order_id` int(11) NOT NULL,
@@ -328,7 +287,7 @@ CREATE TABLE `supplies` (
   KEY `order_id` (`order_id`),
   CONSTRAINT `supplies_ibfk_1` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`),
   CONSTRAINT `supplies_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -337,7 +296,7 @@ CREATE TABLE `supplies` (
 
 LOCK TABLES `supplies` WRITE;
 /*!40000 ALTER TABLE `supplies` DISABLE KEYS */;
-INSERT INTO `supplies` VALUES (2,'2019-02-24',1,210000,2,NULL),(3,'2019-02-24',2,960000,1,NULL),(4,'2019-02-25',2,294777,2,NULL);
+INSERT INTO `supplies` VALUES (2,1,210000,2,NULL),(3,2,960000,1,NULL),(4,2,294777,2,NULL),(5,2,0,3,'2019-04-24 14:53:13'),(6,2,0,3,'2019-04-24 14:53:48'),(7,2,0,3,'2019-04-24 14:55:09'),(8,2,0,3,'2019-04-24 14:57:44'),(9,2,108395,3,'2019-04-24 15:02:10');
 /*!40000 ALTER TABLE `supplies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -359,7 +318,7 @@ CREATE TABLE `supplylines` (
   KEY `supply_id` (`supply_id`),
   CONSTRAINT `supplylines_ibfk_1` FOREIGN KEY (`good_id`) REFERENCES `goods` (`id`),
   CONSTRAINT `supplylines_ibfk_2` FOREIGN KEY (`supply_id`) REFERENCES `supplies` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -368,7 +327,7 @@ CREATE TABLE `supplylines` (
 
 LOCK TABLES `supplylines` WRITE;
 /*!40000 ALTER TABLE `supplylines` DISABLE KEYS */;
-INSERT INTO `supplylines` VALUES (2,20,48000,1,2),(3,6,35000,2,4),(4,63,679,3,3);
+INSERT INTO `supplylines` VALUES (2,20,48000,1,2),(3,6,35000,2,4),(4,63,679,3,3),(5,3,35000,7,9),(6,5,679,11,9);
 /*!40000 ALTER TABLE `supplylines` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -404,7 +363,32 @@ UNLOCK TABLES;
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  `surname` varchar(30) NOT NULL,
+  `salary` int(11) NOT NULL,
+  `department_id` int(11) NOT NULL,
+  `email` varchar(80) NOT NULL,
+  `password` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `department_id` (`department_id`),
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (2,'lol','lol',100,1,'lol@gmail.com','lol'),(3,'kek','kek',1000,1,'kek@gmail.com','kek'),(4,'John','Smith',1500,1,'',''),(8,'Jomn','Smittth',1500000,2,'ya@kl.qwer','123'),(9,'Jomn','Smittth',1500000,2,'ya2@kl.qwer','123'),(10,'Jomn','Smittth',1500000,2,'ya123@kl.qwer','123');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -415,4 +399,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-22 12:26:30
+-- Dump completed on 2019-04-24 18:04:39

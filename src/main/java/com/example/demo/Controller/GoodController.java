@@ -36,7 +36,7 @@ public class GoodController {
     public ResponseEntity<Good> createGood(@Valid @RequestBody GoodDto form) throws Exception {
         HttpStatus httpStatus = null;
         try{
-            Good good = buildGood(form);
+            Good good = goodService.buildGood(form);
             goodService.save(good);
             httpStatus = HttpStatus.OK;
         } catch (Exception e){
@@ -70,20 +70,6 @@ public class GoodController {
             System.err.println(e);
         }
         return ResponseEntity.status(httpStatus).build();
-    }
-
-    private Good buildGood(GoodDto form){
-        Good good = new Good();
-        good.setName(form.getName());
-        good.setCategoryId(form.getCategoryId());
-        good.setDepartmentId(form.getDepartmentId());
-        good.setAmount(form.getAmount());
-        good.setMinAmount(form.getMinAmount());
-        good.setPrice(form.getPrice());
-        if (form.getUniqueId() != null){
-            good.setUniqueId(form.getUniqueId());
-        }
-        return good;
     }
 
 }

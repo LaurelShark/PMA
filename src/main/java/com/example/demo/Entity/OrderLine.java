@@ -17,12 +17,12 @@ public class OrderLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull()
-    @Range(min=1,message = "Enter correct amount")
+
+    //@Range(min=1,message = "Enter correct amount")
     private int amount;
 
-    @NotNull()
-    @Range(min=1,message = "Enter correct price")
+
+    //@Range(min=1,message = "Enter correct price")
     private Double price;
 
     @NotNull()
