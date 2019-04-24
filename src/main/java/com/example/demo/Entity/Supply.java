@@ -62,4 +62,15 @@ public class Supply {
     public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
+
+    @Override
+    public String toString() {
+        return "Supply{" +
+                "id=" + id +
+                ", datetime=" + datetime +
+                ", providerId=" + providerId +
+                ", totalSum=" + totalSum +
+                ", orderId=" + orderId +
+                '}';
+    }
 }

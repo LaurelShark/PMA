@@ -26,30 +26,13 @@ public class OrderController {
     @Autowired
     private OrderLineServiceImpl orderLineService;
 
-
-    // TEST
-    @Autowired
-    private OrderLineRepository orderLineRepository;
-
-    @CrossOrigin(origins = "*")
-    @GetMapping("/order/{id}")
-    public Iterable<OrderLine> findOrderLinesByOrderId(@Valid @PathVariable Integer id){
-        Iterable<OrderLine> orderLines = null;
-        try{
-            orderLines = orderLineRepository.foundOrderLinesByOrderId(id);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return orderLines;
-    }
-
     @CrossOrigin(origins = "*")
     @GetMapping
     public Iterable<Order> findAll() {
         Iterable<Order> orders = null;
-        try{
+        try {
             orders = orderService.findAll();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e);
         }
         return orders;
@@ -58,9 +41,9 @@ public class OrderController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/{id}")
-    public Order getOrderById(@Valid @PathVariable Integer id){
+    public Order getOrderById(@Valid @PathVariable Integer id) {
         Order order = null;
-        try{
+        try {
             order = orderService.findOrderById(id);
         } catch (NoSuchEntityException e) {
             e.printStackTrace();
@@ -69,14 +52,13 @@ public class OrderController {
     }
 
 
-    // TODO test this method
     @CrossOrigin(origins = "*")
     @GetMapping("/status={status}")
-    public Iterable<Order> getApprovedOrders(@Valid @PathVariable String status){
+    public Iterable<Order> getApprovedOrders(@Valid @PathVariable String status) {
         Iterable<Order> approvedOrders = null;
-        try{
+        try {
             approvedOrders = orderService.getApprovedOrders(status);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return approvedOrders;
@@ -85,21 +67,21 @@ public class OrderController {
 
     @CrossOrigin(origins = "*")
     @PostMapping
-    public ResponseEntity<Order> createOrder(@Valid @RequestBody OrderDto orderDto) throws Exception{
+    public ResponseEntity<Order> createOrder(@Valid @RequestBody OrderDto orderDto) throws Exception {
         HttpStatus httpStatus;
-        try{
+        try {
             Order order = orderService.buildOrder(orderDto);
             orderService.save(order);
             List<OrderLine> orderLines = orderService.buildGoods(orderDto, order.getId());
-            if (orderLines.isEmpty()){
+            if (orderLines.isEmpty()) {
                 orderService.removeOrder(order.getId());
             }
             order.setTotalSum(orderService.getTotalSumOfOrder(orderLines));
-            for (OrderLine orderLine : orderLines){
+            for (OrderLine orderLine : orderLines) {
                 orderLineService.save(orderLine);
             }
             httpStatus = HttpStatus.OK;
-        } catch (Exception e){
+        } catch (Exception e) {
             httpStatus = HttpStatus.BAD_REQUEST;
             e.printStackTrace();
         }
@@ -122,9 +104,9 @@ public class OrderController {
 
     @CrossOrigin(origins = "*")
     @PutMapping("/approve/{id}")
-    public ResponseEntity<Order> approveOrder(@Valid @PathVariable Integer id){
+    public ResponseEntity<Order> approveOrder(@Valid @PathVariable Integer id) {
         HttpStatus httpStatus;
-        try{
+        try {
             orderService.approveOrder(id);
             httpStatus = HttpStatus.OK;
         } catch (NoSuchEntityException e) {
@@ -137,12 +119,12 @@ public class OrderController {
 
     @CrossOrigin(origins = "*")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Order> deleteOrder(@Valid @PathVariable Integer id){
+    public ResponseEntity<Order> deleteOrder(@Valid @PathVariable Integer id) {
         HttpStatus httpStatus;
-        try{
+        try {
             orderService.removeOrder(id);
             httpStatus = HttpStatus.OK;
-        }catch (Exception e){
+        } catch (Exception e) {
             httpStatus = HttpStatus.BAD_REQUEST;
             e.printStackTrace();
         }
