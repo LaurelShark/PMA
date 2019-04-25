@@ -27,25 +27,6 @@ public class SupplyController {
     @Autowired
     private SupplyLineService supplyLineService;
 
-//    // TEST
-//    @Autowired
-//    private SupplyRepository supplyRepository;
-//
-//    @GetMapping("/{mId}/{id}")
-//    public Iterable<Supply> findSupMerchId(@PathVariable Integer mId, @PathVariable Integer id) {
-//        System.out.println(mId);
-//        System.out.println(id);
-//        Iterable<Supply> supplies = null;
-//        try {
-//            supplies = supplyRepository.findthisshit(id, mId);
-//        } catch (Exception e) {
-//            System.err.println(e);
-//        }
-//        return supplies;
-//    }
-
-
-
     @CrossOrigin(origins = "*")
     @GetMapping
     public Iterable<Supply> findAll() {
@@ -56,6 +37,18 @@ public class SupplyController {
             System.err.println(e);
         }
         return supplies;
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/supplylinesFor/{id}")
+    public Iterable<SupplyLine> findSupplyLinesForSupply(@Valid @PathVariable Integer id){
+        Iterable<SupplyLine> supplyLines = null;
+        try{
+            supplyLines = supplyLineService.findSupplyLinesForSupply(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return supplyLines;
     }
 
     @CrossOrigin(origins = "*")

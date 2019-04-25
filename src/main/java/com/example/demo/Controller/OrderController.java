@@ -50,6 +50,17 @@ public class OrderController {
         return order;
     }
 
+    @CrossOrigin(origins = "*")
+    @GetMapping("/orderlinesFor/{id}")
+    public Iterable<OrderLine> findOrderLinesForOrder(@Valid @PathVariable Integer id){
+        Iterable<OrderLine> orderLines = null;
+        try{
+            orderLines = orderLineService.findOrderLinesByOrderId(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return orderLines;
+    }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/status={status}")

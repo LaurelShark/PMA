@@ -40,7 +40,7 @@ public class ReceiptController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/receiptlinesFor/{id}")
-    public Iterable<ReceiptLine> findReceiptLines(@Valid @PathVariable Integer id){
+    public Iterable<ReceiptLine> findReceiptLinesForReceipt(@Valid @PathVariable Integer id){
         Iterable<ReceiptLine> receiptLines = null;
         try{
             receiptLines = receiptLineService.findReceiptLinesByReceiptId(id);

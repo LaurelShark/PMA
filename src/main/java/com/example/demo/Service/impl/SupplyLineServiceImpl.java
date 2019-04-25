@@ -21,4 +21,9 @@ public class SupplyLineServiceImpl implements SupplyLineService {
     public SupplyLine save(SupplyLine supplyLine) {
         return supplyLineRepository.save(supplyLine);
     }
+
+    @Override
+    public Iterable<SupplyLine> findSupplyLinesForSupply(Integer id) {
+        return supplyLineRepository.findAllBySupplyId(id);
+    }
 }
