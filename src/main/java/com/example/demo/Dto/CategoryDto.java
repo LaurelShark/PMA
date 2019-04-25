@@ -9,8 +9,6 @@ public class CategoryDto {
 
     private Long id;
 
-    @NotBlank(message = "Enter correct category name")
-    @Size(max = 64, message = "Name must not be more than 64 characters long")
     private String name;
 
     public Long getId() {

@@ -9,28 +9,27 @@ import javax.validation.constraints.Size;
 public class GoodDto {
 
     @NotBlank(message = "Enter correct good name")
-    @Size(max = 64, message = "Name must not be more than 64 characters long")
+
     private String name;
 
     @NotNull()
-    @Range(min=1,message = "Enter correct categoryId")
+
     private int categoryId;
 
     @NotNull()
-    @Range(min=1,message = "Enter correct departmentId")
+
     private int departmentId;
 
     @NotNull()
-    @Range(min=1,message = "Enter correct amount")
+
     private int amount;
 
     @NotNull()
-    @Range(min=1,message = "Enter min amount")
+
     private int minAmount;
 
     @NotNull()
-    @Range(min=1,message = "Product should have price")
-        private double price;
+    private double price;
 
     private String uniqueId;
 
