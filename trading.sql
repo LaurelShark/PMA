@@ -26,7 +26,7 @@ CREATE TABLE `categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'grocery'),(2,'sedan'),(3,'SUV'),(4,'Jomn'),(5,'smartphones'),(6,'earphones'),(7,'cases'),(8,'power-banks'),(9,'categoria');
+INSERT INTO `categories` VALUES (1,'grocery'),(2,'sedan'),(3,'SUV'),(4,'Jomn'),(5,'smartphones'),(6,'earphones'),(7,'cases'),(8,'power-banks'),(9,'categoria'),(10,'new ');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,7 +122,7 @@ CREATE TABLE `orderlines` (
 
 LOCK TABLES `orderlines` WRITE;
 /*!40000 ALTER TABLE `orderlines` DISABLE KEYS */;
-INSERT INTO `orderlines` VALUES (1,10,5,7,30,2),(2,12,14,7,16,2),(3,7,1,10,0,3),(4,3,15,10,15.5,3);
+INSERT INTO `orderlines` VALUES (1,20,5,7,30,2),(2,21,14,7,16,2),(3,7,1,10,0,3),(4,3,15,10,15.5,3);
 /*!40000 ALTER TABLE `orderlines` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,10 +138,10 @@ CREATE TABLE `orders` (
   `status` varchar(30) NOT NULL,
   `date` datetime DEFAULT NULL,
   `total_sum` float DEFAULT NULL,
-  `userId` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `userId` (`userId`),
-  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -151,7 +151,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,'done','2019-02-21 00:00:00',960000,2),(2,'done','2019-02-27 00:00:00',252777,2),(3,'NOT CONFIRMED','2019-04-22 00:00:00',NULL,2),(4,'NOT CONFIRMED','2019-04-22 00:00:00',NULL,2),(5,'NOT CONFIRMED','2019-04-22 00:00:00',NULL,2),(7,'APPROVED','2019-04-24 00:00:00',984,2),(8,'NOT CONFIRMED','2019-04-24 13:29:17',NULL,2),(9,'NOT CONFIRMED','2019-04-24 13:32:27',NULL,2),(10,'NOT CONFIRMED','2019-04-24 13:33:38',46.5,2);
+INSERT INTO `orders` VALUES (1,'done','2019-02-21 00:00:00',960000,2),(2,'done','2019-02-27 00:00:00',252777,2),(3,'NOT CONFIRMED','2019-04-22 00:00:00',NULL,2),(4,'NOT CONFIRMED','2019-04-22 00:00:00',NULL,2),(5,'NOT CONFIRMED','2019-04-22 00:00:00',NULL,2),(7,'APPROVED','2019-04-25 09:52:22',952,2),(8,'NOT CONFIRMED','2019-04-24 13:29:17',NULL,2),(9,'NOT CONFIRMED','2019-04-24 13:32:27',NULL,2),(10,'NOT CONFIRMED','2019-04-24 13:33:38',46.5,2);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -227,11 +227,11 @@ DROP TABLE IF EXISTS `receipts`;
 CREATE TABLE `receipts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `total_sum` float DEFAULT NULL,
-  `userId` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `userId` (`userId`),
-  CONSTRAINT `receipts_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `receipts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -282,12 +282,15 @@ CREATE TABLE `supplies` (
   `total_sum` float DEFAULT NULL,
   `order_id` int(11) NOT NULL,
   `datetime` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `provider_id` (`provider_id`),
   KEY `order_id` (`order_id`),
+  KEY `created_by` (`created_by`),
   CONSTRAINT `supplies_ibfk_1` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`),
-  CONSTRAINT `supplies_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `supplies_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  CONSTRAINT `supplies_ibfk_3` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -296,7 +299,7 @@ CREATE TABLE `supplies` (
 
 LOCK TABLES `supplies` WRITE;
 /*!40000 ALTER TABLE `supplies` DISABLE KEYS */;
-INSERT INTO `supplies` VALUES (2,1,210000,2,NULL),(3,2,960000,1,NULL),(4,2,294777,2,NULL),(5,2,0,3,'2019-04-24 14:53:13'),(6,2,0,3,'2019-04-24 14:53:48'),(7,2,0,3,'2019-04-24 14:55:09'),(8,2,0,3,'2019-04-24 14:57:44'),(9,2,108395,3,'2019-04-24 15:02:10');
+INSERT INTO `supplies` VALUES (2,1,210000,2,NULL,NULL),(3,2,960000,1,NULL,NULL),(4,2,294777,2,NULL,NULL),(5,2,0,3,'2019-04-24 14:53:13',NULL),(6,2,0,3,'2019-04-24 14:53:48',NULL),(7,2,0,3,'2019-04-24 14:55:09',NULL),(8,2,0,3,'2019-04-24 14:57:44',NULL),(9,2,108395,3,'2019-04-24 15:02:10',NULL),(10,2,3000,3,'2019-04-25 11:41:33',10),(11,2,2097,3,'2019-04-25 10:07:37',9);
 /*!40000 ALTER TABLE `supplies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -318,7 +321,7 @@ CREATE TABLE `supplylines` (
   KEY `supply_id` (`supply_id`),
   CONSTRAINT `supplylines_ibfk_1` FOREIGN KEY (`good_id`) REFERENCES `goods` (`id`),
   CONSTRAINT `supplylines_ibfk_2` FOREIGN KEY (`supply_id`) REFERENCES `supplies` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -327,7 +330,7 @@ CREATE TABLE `supplylines` (
 
 LOCK TABLES `supplylines` WRITE;
 /*!40000 ALTER TABLE `supplylines` DISABLE KEYS */;
-INSERT INTO `supplylines` VALUES (2,20,48000,1,2),(3,6,35000,2,4),(4,63,679,3,3),(5,3,35000,7,9),(6,5,679,11,9);
+INSERT INTO `supplylines` VALUES (2,20,48000,1,2),(3,6,35000,2,4),(4,63,679,3,3),(5,3,35000,7,9),(6,5,679,11,9),(7,3,500,11,10),(8,3,899,10,10),(9,2,30,5,11),(10,3,679,11,11);
 /*!40000 ALTER TABLE `supplylines` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -340,14 +343,14 @@ DROP TABLE IF EXISTS `userroles`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `userroles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL,
-  `roleId` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `userId` (`userId`),
-  KEY `roleId` (`roleId`),
-  CONSTRAINT `userroles_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
-  CONSTRAINT `userroles_ibfk_2` FOREIGN KEY (`roleId`) REFERENCES `roles` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `user_id` (`user_id`),
+  KEY `role_id` (`role_id`),
+  CONSTRAINT `userroles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `userroles_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -356,6 +359,7 @@ CREATE TABLE `userroles` (
 
 LOCK TABLES `userroles` WRITE;
 /*!40000 ALTER TABLE `userroles` DISABLE KEYS */;
+INSERT INTO `userroles` VALUES (13,11,1);
 /*!40000 ALTER TABLE `userroles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -377,7 +381,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   KEY `department_id` (`department_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -386,7 +390,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (2,'lol','lol',100,1,'lol@gmail.com','lol'),(3,'kek','kek',1000,1,'kek@gmail.com','kek'),(4,'John','Smith',1500,1,'',''),(8,'Jomn','Smittth',1500000,2,'ya@kl.qwer','123'),(9,'Jomn','Smittth',1500000,2,'ya2@kl.qwer','123'),(10,'Jomn','Smittth',1500000,2,'ya123@kl.qwer','123');
+INSERT INTO `users` VALUES (2,'lol','lol',100,1,'lol@gmail.com','lol'),(3,'kek','kek',1000,1,'kek@gmail.com','kek'),(4,'John','Smith',1500,1,'',''),(8,'Jomn','Smittth',1500000,2,'ya@kl.qwer','123'),(9,'Jomn','Smittth',1500000,2,'ya2@kl.qwer','123'),(10,'Jomn','Smittth',1500000,2,'ya123@kl.qwer','123'),(11,'Ivan','Ivanov',2222,2,'ivan@gmail.com','mypass');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -399,4 +403,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-24 18:04:39
+-- Dump completed on 2019-04-25 20:08:57
