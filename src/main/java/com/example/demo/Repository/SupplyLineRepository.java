@@ -5,4 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface SupplyLineRepository extends CrudRepository<SupplyLine, Integer> {
 
+    Iterable<SupplyLine> findAllBySupplyId(Integer id);
+
 }

@@ -19,6 +19,8 @@ public class Supply {
 
     private int orderId;
 
+    private Integer createdBy;
+
     public Supply(){
 
     }
@@ -63,6 +65,14 @@ public class Supply {
         this.orderId = orderId;
     }
 
+    public Integer getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Integer createdBy) {
+        this.createdBy = createdBy;
+    }
+
     @Override
     public String toString() {
         return "Supply{" +
@@ -71,6 +81,7 @@ public class Supply {
                 ", providerId=" + providerId +
                 ", totalSum=" + totalSum +
                 ", orderId=" + orderId +
+                ", createdBy=" + createdBy +
                 '}';
     }
 }

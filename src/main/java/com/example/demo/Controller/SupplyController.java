@@ -3,6 +3,9 @@ package com.example.demo.Controller;
 import com.example.demo.Dto.SupplyDto;
 import com.example.demo.Entity.Supply;
 import com.example.demo.Entity.SupplyLine;
+import com.example.demo.Exception.NoSuchEntityException;
+import com.example.demo.Repository.SupplyLineRepository;
+import com.example.demo.Repository.SupplyRepository;
 import com.example.demo.Service.SupplyLineService;
 import com.example.demo.Service.impl.SupplyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,25 @@ public class SupplyController {
     @Autowired
     private SupplyLineService supplyLineService;
 
+//    // TEST
+//    @Autowired
+//    private SupplyRepository supplyRepository;
+//
+//    @GetMapping("/{mId}/{id}")
+//    public Iterable<Supply> findSupMerchId(@PathVariable Integer mId, @PathVariable Integer id) {
+//        System.out.println(mId);
+//        System.out.println(id);
+//        Iterable<Supply> supplies = null;
+//        try {
+//            supplies = supplyRepository.findthisshit(id, mId);
+//        } catch (Exception e) {
+//            System.err.println(e);
+//        }
+//        return supplies;
+//    }
+
+
+
     @CrossOrigin(origins = "*")
     @GetMapping
     public Iterable<Supply> findAll() {
@@ -35,6 +57,19 @@ public class SupplyController {
         }
         return supplies;
     }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/merchandiserId={id}")
+    public Iterable<Supply> findSuppliesforMerchandiser(@Valid @PathVariable Integer id){
+        Iterable<Supply> merchandiserSupplies = null;
+        try{
+            merchandiserSupplies = supplyService.findSuppliesForMerchandiser(id);
+        }catch (Exception e){
+            System.err.println(e);
+        }
+        return merchandiserSupplies;
+    }
+
 
     @CrossOrigin(origins = "*")
     @PostMapping
@@ -49,7 +84,7 @@ public class SupplyController {
             if (supplyLines.isEmpty()) {
                 supplyService.removeSupplyById(supply.getId());
             }
-            supply.setTotalSum(supplyService.getTotalSumOfOrder(supplyLines));
+            supply.setTotalSum(supplyService.getTotalSumOfSupply(supplyLines));
             for (SupplyLine supplyLine : supplyLines){
                 supplyLineService.save(supplyLine);
             }
@@ -57,6 +92,22 @@ public class SupplyController {
         }catch (Exception e){
             httpStatus = HttpStatus.BAD_REQUEST;
             e.printStackTrace();
+        }
+        return new ResponseEntity<>(httpStatus);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping("/merchandiserId/{merchandiserId}/update/{id}")
+    public ResponseEntity<Supply> updateMerchandiserSupply(@Valid @RequestBody SupplyDto supplyDto,
+                                                           @PathVariable Integer merchandiserId,
+                                                           @PathVariable Integer id){
+        HttpStatus httpStatus;
+        try {
+            supplyService.updateMerchandiserSupply(supplyDto, id, merchandiserId);
+            httpStatus = HttpStatus.OK;
+        } catch (Exception e) {
+            e.printStackTrace();
+            httpStatus = HttpStatus.BAD_REQUEST;
         }
         return new ResponseEntity<>(httpStatus);
     }

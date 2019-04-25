@@ -67,6 +67,7 @@ public class OrderServiceImpl implements OrderService {
         if (orderDto.getProducts() != null) {
             List<OrderLine> updatedOrderLines = orderLineService.findOrderLinesByOrderId(id);
             int position = 0;
+            double oldSum = getTotalSumOfOrder(updatedOrderLines);
             for (Map.Entry<Integer, Integer> entry : orderDto.getProducts().entrySet()) {
                 OrderLine orderLineToUpdate = updatedOrderLines.get(position);
                 position++;
@@ -80,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
                     orderLineService.removeOrderLine(entry.getKey());
                 }
             }
-            foundOrder.setTotalSum(getTotalSumOfOrder(updatedOrderLines));
+            foundOrder.setTotalSum(getTotalSumOfOrder(updatedOrderLines) - oldSum);
             orderRepository.save(foundOrder);
         }
         return foundOrder;

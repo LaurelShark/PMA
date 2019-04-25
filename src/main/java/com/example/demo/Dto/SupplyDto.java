@@ -15,6 +15,8 @@ public class SupplyDto {
 
     private Double totalSum;
 
+    private Integer createdBy;
+
     @NotNull
     public HashMap<Integer, Integer> goods;
 
@@ -66,6 +68,14 @@ public class SupplyDto {
         this.totalSum = totalSum;
     }
 
+    public Integer getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Integer createdBy) {
+        this.createdBy = createdBy;
+    }
+
     @Override
     public String toString() {
         return "SupplyDto{" +
@@ -73,6 +83,8 @@ public class SupplyDto {
                 ", orderId=" + orderId +
                 ", amount=" + amount +
                 ", price=" + price +
+                ", totalSum=" + totalSum +
+                ", createdBy=" + createdBy +
                 ", goods=" + goods +
                 '}';
     }

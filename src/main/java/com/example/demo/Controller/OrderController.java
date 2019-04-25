@@ -38,7 +38,6 @@ public class OrderController {
         return orders;
     }
 
-
     @CrossOrigin(origins = "*")
     @GetMapping("/{id}")
     public Order getOrderById(@Valid @PathVariable Integer id) {

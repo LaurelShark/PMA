@@ -16,4 +16,9 @@ public class ReceiptLineServiceImpl implements ReceiptLineService {
     public ReceiptLine save(ReceiptLine receiptLine) {
         return receiptLineRepository.save(receiptLine);
     }
+
+    @Override
+    public Iterable<ReceiptLine> findReceiptLinesByReceiptId(Integer id) {
+        return receiptLineRepository.findAllByReceiptId(id);
+    }
 }

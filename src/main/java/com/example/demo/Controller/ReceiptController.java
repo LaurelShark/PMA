@@ -39,6 +39,18 @@ public class ReceiptController {
     }
 
     @CrossOrigin(origins = "*")
+    @GetMapping("/receiptlinesFor/{id}")
+    public Iterable<ReceiptLine> findReceiptLines(@Valid @PathVariable Integer id){
+        Iterable<ReceiptLine> receiptLines = null;
+        try{
+            receiptLines = receiptLineService.findReceiptLinesByReceiptId(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return receiptLines;
+    }
+
+    @CrossOrigin(origins = "*")
     @PostMapping
     public ResponseEntity<Receipt> createReceipt(@Valid @RequestBody ReceiptDto receiptDto){
         HttpStatus httpStatus;
