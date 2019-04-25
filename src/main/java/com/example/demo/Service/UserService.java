@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import com.example.demo.Dto.UserDto;
 import com.example.demo.Entity.User;
 import org.springframework.http.ResponseEntity;
 
@@ -9,7 +10,7 @@ public interface UserService  {
 
     List<User> getAllUsers();
 
-    User createUser(User user);
+    User createUser(UserDto userDto);
 
     boolean deleteUser(long id);
 

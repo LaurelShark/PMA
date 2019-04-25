@@ -1,7 +1,10 @@
 package com.example.demo.Service.impl;
 
+import com.example.demo.Dto.UserDto;
 import com.example.demo.Entity.User;
+import com.example.demo.Entity.UserRole;
 import com.example.demo.Repository.UserRepository;
+import com.example.demo.Repository.UserRoleRepository;
 import com.example.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +20,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserRoleRepository userRoleRepository;
+
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
@@ -25,10 +31,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(User input_user) {
-        User user = userRepository.save(new User(input_user.getName(), input_user.getSurname(),
-                input_user.getSalary(), input_user.getDepartment_id(), input_user.getEmail(),
-                input_user.getPassword()));
+    public User createUser(UserDto userDto) {
+        User user = buildUser(userDto);
+        userRepository.save(user);
+        addDefaultRoleToUser(user.getId());
         return user;
     }
 
@@ -50,4 +56,23 @@ public class UserServiceImpl implements UserService {
         users = userRepository.findBySalary(salary);
         return users;
     }
+
+    private User buildUser(UserDto userDto){
+        User user = new User();
+        user.setName(userDto.getName());
+        user.setSurname(userDto.getSurname());
+        user.setSalary(userDto.getSalary());
+        user.setDepartment_id(userDto.getDepartmentId());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        return user;
+    }
+
+    private void addDefaultRoleToUser(Integer id){
+        UserRole userRole = new UserRole();
+        userRole.setUserId(id);
+        userRole.setRoleId(1);
+        userRoleRepository.save(userRole);
+    }
+
 }

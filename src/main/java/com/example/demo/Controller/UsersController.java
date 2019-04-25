@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Dto.UserDto;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.impl.UserServiceImpl;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.jws.soap.SOAPBinding;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,15 +44,17 @@ public class UsersController {
         return users;
     }
 
-    @PostMapping("/create")
-    public User createUser(@RequestBody User input_user){
-        User user = null;
+    @PostMapping
+    public ResponseEntity<User> createUser(@Valid @RequestBody UserDto userDto){
+        HttpStatus httpStatus;
         try{
-            user = userServiceImpl.createUser(input_user);
+            userServiceImpl.createUser(userDto);
+            httpStatus = HttpStatus.OK;
         }catch (Exception e){
+            httpStatus = HttpStatus.BAD_REQUEST;
             e.printStackTrace();
         }
-        return user;
+        return new ResponseEntity<>(httpStatus);
     }
 
     @DeleteMapping("/delete/{id}")
