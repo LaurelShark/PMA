@@ -13,9 +13,13 @@
       </el-button>
     </el-col>
 
-    <receipt-form
+    <form-wrapper
       ref="form"
-    />
+    >
+      <receipt-form
+        @update="onUpdate"
+      />
+    </form-wrapper>
   </el-row>
   
 </template>
@@ -23,16 +27,34 @@
 <script>
 import ReceiptForm from './Form'
 import ReceiptList from './List'
+import { mapActions } from 'vuex'
 
 export default {
+  created() {
+    this.loadReceipts()
+  },
+
   components: {
     ReceiptForm,
     ReceiptList
   },
 
   methods: {
+    ...mapActions('Receipts', [
+      'loadReceipts'
+    ]),
+
     openForm() {
-      this.$refs.form.openDialog()
+      this.$refs.form.openForm()
+    },
+
+    closeForm() {
+      this.$refs.form.closeForm()
+    },
+
+    onUpdate() {
+      this.loadReceipts()
+      this.closeForm()
     }
   }
 }

@@ -35,20 +35,13 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  created() {
-    this.loadGoods()
-  },
   computed: {
     ...mapState('Goods', [
       'goods'
     ])
   },
 
-  methods: {
-    ...mapActions('Goods', [
-      'loadGoods'
-    ]),
-  }
+  
 
 }
 </script>

@@ -15,9 +15,6 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  created() {
-    this.loadCategories()
-  },
   computed: {
     ...mapState('Categories', [
       'categories'

@@ -9,6 +9,14 @@ export default {
     } catch(e) {
       console.log('GOODS ERROR', e)
     }
-   
+  },
+
+  async createGood({ commit }, payload) {
+    console.log('payload', payload)
+    try {
+      const resp = await axios.post(`${API}/goods`, payload)
+    } catch(e) {
+      throw new Error('GOODS ERROR')
+    }
   }
 }
