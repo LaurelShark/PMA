@@ -12,10 +12,11 @@
         Create
       </el-button>
     </el-col>
-
-    <good-form
-      ref="form"
-    />
+    <form-wrapper ref="form">
+      <good-form
+        @update="onUpdate"
+      />
+    </form-wrapper>
   </el-row>
   
 </template>
@@ -23,17 +24,35 @@
 <script>
 import GoodsList from './List'
 import GoodForm from './Form'
+import { mapActions } from 'vuex'
 
 export default {
+  created() {
+    this.loadGoods()
+  },
+
   components: {
     GoodsList,
     GoodForm
   },
 
   methods: {
+     ...mapActions('Goods', [
+      'loadGoods'
+    ]),
+
+    onUpdate() {
+      this.loadGoods()
+      this.closeForm()
+    },
+
     openForm() {
-      this.$refs.form.openDialog()
+      this.$refs.form.openForm()
+    },
+
+    closeForm() {
+      this.$refs.form.closeForm()
     }
-  }
+  },
 }
 </script>

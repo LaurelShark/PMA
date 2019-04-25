@@ -9,6 +9,21 @@ export default {
     } catch(e) {
       console.log('ORDERS ERROR', e)
     }
-   
+  },
+
+  async createOrder({ commit }, payload) {
+    try {
+      const resp = await axios.post(`${API}/orders`, payload)
+    } catch(e) {
+      throw new Error('ORDERS ERROR')
+    }
+  },
+
+  async updateOrder({ commit }, payload) {
+    try {
+      const resp = await axios.put(`${API}/orders`, payload)
+    } catch(e) {
+      throw new Error('ORDERS ERROR')
+    }
   }
 }

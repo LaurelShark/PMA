@@ -13,10 +13,13 @@
       </el-button>
     </el-col>
 
-    <cat-form
+    <form-wrapper
       ref="form"
-      @update="loadCategories"
-    />
+    >
+      <cat-form
+        @update="onUpdate"
+      />
+    </form-wrapper>
   </el-row>
   
 </template>
@@ -41,7 +44,16 @@ export default {
     ]),
 
     openForm() {
-      this.$refs.form.openDialog()
+      this.$refs.form.openForm()
+    },
+
+    closeForm() {
+      this.$refs.form.closeForm()
+    },
+    
+    onUpdate() {
+      this.$refs.form.closeForm()
+      this.loadCategories()
     }
   }
 }

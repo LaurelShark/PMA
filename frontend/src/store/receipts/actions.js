@@ -10,5 +10,13 @@ export default {
       console.log('RECEIPTS ERROR', e)
     }
    
+  },
+
+  async createReceipt({ commit }, payload) {
+    try {
+      const resp = await axios.post(`${API}/receipts`, payload)
+    } catch(e) {
+      throw new Error('RECEIPTS ERROR')
+    }
   }
 }

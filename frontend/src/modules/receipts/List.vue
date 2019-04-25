@@ -1,5 +1,8 @@
 <template>
-  <el-table :data="receipts">
+  <el-table 
+    :data="receipts"
+    @row-click="rowClick"
+  >
     <el-table-column
       prop="id"
       label="Id"
@@ -23,9 +26,6 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  created() {
-    this.loadReceipts()
-  },
   computed: {
     ...mapState('Receipts', [
       'receipts'
@@ -33,9 +33,9 @@ export default {
   },
 
   methods: {
-    ...mapActions('Receipts', [
-      'loadReceipts'
-    ]),
+    rowClick(row) {
+      
+    }
   }
 
 }

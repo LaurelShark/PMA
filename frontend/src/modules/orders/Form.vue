@@ -1,56 +1,60 @@
 <template>
-  <el-dialog
-    :visible.sync="dialogVisible"
-    width="550px"
-  >
-    <el-form label-position="top">
-      <div v-for="(item, index) in form.items"
-        :key="index">
-        <h2>
-          Receipt line
-        </h2>
-        <el-form-item label="Good id">  
-          <el-input v-model="form.items[index].id">
-          </el-input>
-        </el-form-item>
-        <el-form-item label="Amount">
-          <el-input v-model="form.items[index].amount">
-          </el-input>
-        </el-form-item>
-        <el-form-item label="Price">
-          <el-input v-model="form.items[index].price">
-          </el-input>
-        </el-form-item>
-      </div>
-      
-      <el-button
-        type="success"
-        @click="addItem"
-      >
-        Add new
-      </el-button>
-      
-      <el-button
-        type="success"
-        @click="onSubmit"
-      >
-        Create
-      </el-button>
-      
-    </el-form>
-  </el-dialog>
+  <el-form label-position="top">
+    <div v-for="(item, index) in form.products"
+      :key="index">
+      <h2>
+        Create order
+      </h2>
+      <el-form-item label="Good id">  
+       <el-select
+            v-model="form.products[index].id"
+          >
+            <el-option
+              v-for="item in goods"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+      </el-form-item>
+      <el-form-item label="Amount">
+        <el-input v-model="form.products[index].amount">
+        </el-input>
+      </el-form-item>
+    </div>
+    
+    <el-button
+      type="success"
+      @click="addItem"
+    >
+      Add new
+    </el-button>
+    
+    <el-button
+      type="success"
+      @click="onSubmit"
+    >
+      Create
+    </el-button>
+  </el-form>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
+  created() {
+    this.loadGoods()
+  },
+
   data() {
     return {
       form: {
-        items: [
+        products: [
           {
             id: null,
-            amount: null,
-            price: null
+            amount: null
           }
         ]
       },
@@ -58,7 +62,21 @@ export default {
     }
   },
 
+  computed: {
+    ...mapState('Goods', [
+      'goods'
+    ])
+  },
+
   methods: {
+    ...mapActions('Orders', [
+      'createOrder'
+    ]),
+
+    ...mapActions('Goods', [
+      'loadGoods'
+    ]),
+
     openDialog() {
       this.dialogVisible = true
     },
@@ -68,18 +86,34 @@ export default {
     },
 
     addItem() {
-      this.form.items.push(
+      this.form.products.push(
         {
           id: null,
           amount: null,
-          price: null
         }
       )
     },
 
-    onSubmit() {
-      //
-      this.closeDialog()
+    async onSubmit() {
+      const products = this.form.products.reduce((res, { id, amount }) => {
+        return {
+          ...res,
+          [`${id}`]: `${amount}`
+        }
+      }, {})
+
+      try {
+         await this.createOrder({
+          userId: 2,
+          providerId: 3,
+          products
+        })
+        this.$emit('update')
+        this.closeDialog()
+      } catch (e) {
+
+      }
+     
     }
   }
 }
